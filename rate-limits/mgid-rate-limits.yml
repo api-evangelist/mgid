@@ -1,0 +1,61 @@
+name: MGID API Rate Limits
+description: MGID does not publicly document specific rate limits for its REST API.
+  The API uses Bearer token authentication with 32-character tokens that expire after
+  an unspecified period, requiring token refresh. Applications should implement token
+  refresh logic and apply reasonable request pacing. The reporting endpoints support
+  a maximum of 90 days per date range query with pagination of up to 1000 records
+  per page.
+url: https://help.mgid.com/api-advertisers/
+created: '2026-06-13'
+modified: '2026-06-13'
+rateLimits:
+  - scope: API (all endpoints)
+    documented: false
+    notes: MGID does not publicly disclose specific rate limits (requests per minute
+      or per day) for any API tier. No rate limit headers are documented in official
+      API docs.
+  - scope: Token Expiry
+    type: session
+    documented: true
+    description: Bearer tokens (32 characters) expire after an unspecified interval.
+      Applications must handle token expiry and re-authenticate via the auth/token
+      endpoint with email and password credentials.
+    action: POST to auth/token endpoint to obtain a new token
+  - scope: Statistics Reporting Date Range
+    type: query-constraint
+    documented: true
+    maxDays: 90
+    description: The granular statistics reporting endpoint supports a maximum date
+      range of 90 days per request.
+  - scope: Statistics Reporting Pagination
+    type: pagination
+    documented: true
+    defaultPageSize: 20
+    maxPageSize: 1000
+    description: Reporting endpoints support pagination via limit and offset parameters.
+      Default page size is 20 records; maximum is 1000 records per page.
+protocols:
+  - name: HTTPS Required
+    documented: true
+    description: All API requests must use HTTPS. HTTP requests are not supported.
+authentication:
+  type: Bearer Token
+  tokenLength: 32 characters
+  headerName: Authorization
+  headerFormat: 'Bearer {token}'
+  tokenExpiry: unspecified (tokens expire; applications must refresh)
+  obtainToken:
+    endpoint: POST auth/token
+    credentials:
+      - email
+      - password
+    returns:
+      - token
+      - idAuth
+recommendations:
+  - Implement automatic token refresh when API returns authentication errors.
+  - Apply conservative request pacing (e.g., 1-2 requests per second) as a best practice
+    given no published rate limits.
+  - Use pagination efficiently; request up to 1000 records per page for bulk data retrieval.
+  - Limit date ranges to 90 days or fewer in reporting queries.
+  - Contact MGID support or your account manager for enterprise-level rate limit information.

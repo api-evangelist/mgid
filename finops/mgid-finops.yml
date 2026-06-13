@@ -1,0 +1,91 @@
+name: MGID FinOps
+description: Financial operations guidance for managing MGID API and platform costs.
+  MGID uses a CPC (Cost-Per-Click) prepaid model. Advertisers deposit funds and pay
+  per click at their chosen CPC rate. Publishers earn revenue through a revenue-share
+  model. There are no API subscription fees or per-call charges; all API usage is
+  included with an active account.
+url: https://help.mgid.com/mgids-pricing-and-billing-model
+created: '2026-06-13'
+modified: '2026-06-13'
+costModel:
+  type: CPC Prepaid (Advertisers) / Revenue Share (Publishers)
+  apiCosts: none
+  description: MGID does not charge separately for API access. All costs are tied
+    to ad spend (CPC for advertisers) or revenue earned (publishers). API usage itself
+    generates no direct charges.
+budgeting:
+  minimumDeposit:
+    amount: 100
+    currency: USD
+    description: Minimum deposit to activate an advertiser account and begin campaigns.
+  recommendedStartBudget:
+    amount: 650
+    currency: USD
+    description: MGID recommends depositing at least $650 to generate sufficient data
+      for optimization and to unlock CPA Tune AI bidding tool.
+  cpcModel:
+    description: Advertisers set their own CPC rate. Budget is consumed as users click
+      on ads. Total spend = CPC rate x number of clicks received.
+    example:
+      budget: 50
+      cpc: 0.05
+      estimatedClicks: 1000
+      currency: USD
+  autoTopUp:
+    available: true
+    description: Automatic account top-up feature available via the dashboard to prevent
+      campaign interruption when balance runs low.
+costOptimization:
+  - strategy: CPA Tune
+    description: AI-powered bidding optimization tool that adjusts bids automatically
+      to achieve target CPA goals. Unlocked after sufficient spend (recommended $650+).
+    impact: Reduces wasted spend by optimizing bids toward converting traffic.
+  - strategy: Quality Factor Optimization
+    description: Use the quality-analysis endpoints (GET /goodhits/campaigns/{campaign_id}/quality-analysis/{uid}
+      and quality-analysis-sources/) to identify underperforming sites and sources.
+      Block poor performers via blocklist API to reduce wasted CPC spend.
+    endpoints:
+      - GET /goodhits/campaigns/{campaign_id}/quality-analysis/{uid}
+      - GET /goodhits/campaigns/{campaign_id}/quality-analysis-sources/
+      - PATCH /clients/{client_id}/sources-blocklist
+  - strategy: Granular Reporting
+    description: Use the statistics-reports endpoint with up to 3 dimensions and
+      20+ metrics to identify high-CPA segments and adjust targeting or CPC accordingly.
+    endpoint: GET /goodhits/clients/{client_id}/statistics-reports
+    maxDateRange: 90 days
+  - strategy: Teaser-Level CPC Control
+    description: Adjust CPC per individual teaser using the PATCH teaser endpoint
+      to concentrate budget on top-performing creatives.
+    endpoint: PATCH /goodhits/clients/{client_id}/teasers/{teaser_id}
+  - strategy: Campaign Budget Caps
+    description: Set daily and overall budget limits and click limits at the campaign
+      level via the campaign PATCH endpoint to prevent overspend.
+    endpoint: PATCH /goodhits/clients/{client_id}/campaigns/{campaign_id}
+billing:
+  model: Prepaid
+  paymentMethods:
+    - Credit card (dashboard self-serve)
+    - Debit card (dashboard self-serve)
+    - Bank wire transfer (via account manager)
+  invoices: Available via account manager for wire transfer payments
+  cardStorage: Supported for recurring top-ups
+  notes:
+    - No CPA billing model; CPA optimization is achieved through AI tools on CPC model.
+    - Funds are deducted from account balance as clicks are delivered.
+    - Publishers are paid on a revenue-share basis; payment terms managed separately.
+monitoring:
+  - metric: Account Balance
+    endpoint: GET /clients/{client_id}
+    description: Monitor remaining balance and financial status via the client financial
+      status endpoint to avoid unexpected campaign pauses.
+  - metric: Campaign Spend
+    endpoint: GET /goodhits/clients/{client_id}/campaigns-stat
+    description: Track spend per campaign to identify budget consumption rates.
+  - metric: Agency Client Expenses
+    endpoint: GET /v1/agencies/{accountId}/clients-spent-reports
+    description: For agencies, track spend by client and by service type (goodhits,
+      news, banners) to allocate costs accurately.
+  - metric: Publisher Revenue
+    endpoint: GET https://api.mgid.com/v2/pub/account/{clientId}/website-custom-report
+    description: Track publisher revenue, page views, and eCPM to monitor monetization
+      performance.

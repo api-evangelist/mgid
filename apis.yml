@@ -1,0 +1,105 @@
+aid: mgid
+name: MGID
+description: MGID is a native advertising platform providing a REST API for managing
+  publishers, advertisers, and agencies. The API enables management of campaigns,
+  ad teasers, widgets, conversion tracking, geo and device targeting, and access to
+  detailed traffic and revenue analytics for content monetization across native, display,
+  and video ad formats.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/mgid/refs/heads/main/apis.yml
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
+type: Index
+tags:
+  - Native Advertising
+  - Ad Tech
+  - Publishers
+  - Advertisers
+  - Campaigns
+  - Content Monetization
+  - Programmatic
+apis:
+  - aid: mgid:mgid-advertiser-api
+    name: MGID Advertiser API
+    description: REST API for advertisers and agencies to manage campaigns, teasers,
+      targeting, conversion tracking, and access detailed statistics and reporting
+      for native advertising campaigns.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://help.mgid.com/api-advertisers/
+    baseURL: https://api.mgid.com/v1
+    tags:
+      - Campaigns
+      - Teasers
+      - Targeting
+      - Statistics
+      - Conversions
+    properties:
+      - type: Documentation
+        url: https://help.mgid.com/api-advertisers/
+      - type: Authentication
+        url: https://help.mgid.com/api-advertisers/
+  - aid: mgid:mgid-publisher-api
+    name: MGID Publisher API
+    description: REST API for publishers to retrieve widget and website performance
+      metrics including impressions, clicks, revenue, CPM, eCPM, visibility rates,
+      and traffic analytics broken down by date, device, country, and traffic source.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://help.mgid.com/api-publishers
+    baseURL: https://api.mgid.com
+    tags:
+      - Publishers
+      - Widgets
+      - Revenue
+      - Analytics
+      - Traffic
+    properties:
+      - type: Documentation
+        url: https://help.mgid.com/api-publishers
+      - type: Authentication
+        url: https://help.mgid.com/api-publishers
+  - aid: mgid:mgid-agency-api
+    name: MGID Agency API
+    description: REST API for advertising agencies to manage client accounts, retrieve
+      financial statistics, view expense reports by service type, and transfer funds
+      between agency and client accounts.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://help.mgid.com/api-ra
+    baseURL: https://api.mgid.com/v1
+    tags:
+      - Agencies
+      - Clients
+      - Financial
+      - Billing
+      - Reporting
+    properties:
+      - type: Documentation
+        url: https://help.mgid.com/api-ra
+      - type: Authentication
+        url: https://help.mgid.com/api-ra
+common:
+  - type: Website
+    url: https://www.mgid.com
+  - type: Documentation
+    url: https://help.mgid.com/api
+  - type: GitHubOrg
+    url: https://github.com/mgid
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/mgid-inc-
+  - type: Blog
+    url: https://www.mgid.com/blog
+  - type: Pricing
+    url: https://help.mgid.com/mgids-pricing-and-billing-model
+  - type: StatusPage
+    url: https://status.mgid.com
+  - type: X
+    url: https://twitter.com/MGID
+  - type: Plans
+    url: plans/mgid-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/mgid-rate-limits.yml
+  - type: FinOps
+    url: finops/mgid-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,76 @@
+name: MGID Plans and Pricing
+description: MGID operates on a Cost-Per-Click (CPC) prepaid advertising model with
+  no fixed subscription tiers. Advertisers set their own CPC rate and budget, paying
+  only for actual clicks received. The platform is self-serve with no separate API
+  access fees — API access is included with any active MGID account.
+url: https://help.mgid.com/mgids-pricing-and-billing-model
+created: '2026-06-13'
+modified: '2026-06-13'
+plans:
+  - name: Self-Serve Advertiser
+    description: Standard access to the MGID platform and REST API for advertisers.
+      No monthly fee; pay only for clicks at the CPC rate you set. API access is
+      included at no extra cost.
+    type: pay-as-you-go
+    minimumDeposit:
+      amount: 100
+      currency: USD
+    recommendedDeposit:
+      amount: 650
+      currency: USD
+      note: Recommended to generate sufficient test data and unlock CPA Tune AI optimization
+    billingModel: CPC (Cost Per Click)
+    features:
+      - Campaign creation and management via API
+      - Teaser (ad creative) management
+      - Geo, browser, OS, and language targeting
+      - Conversion tracking
+      - Detailed statistics and reporting (up to 90-day date range)
+      - Quality analysis by site and source
+      - UTM tracking parameters
+      - Widget/source blocklist and allowlist management
+      - Video campaign statistics
+    apiAccess: true
+    apiIncluded: true
+    paymentMethods:
+      - Credit card (via dashboard)
+      - Debit card (via dashboard)
+      - Bank wire transfer (via account manager)
+    features_advanced:
+      - name: CPA Tune
+        description: AI-powered bidding optimization tool unlocked after initial spend
+        minimumDeposit: 650
+        currency: USD
+  - name: Publisher Monetization
+    description: Publishers integrate MGID ad widgets on their sites and earn revenue
+      through the publisher API and dashboard. No upfront cost for publishers; revenue
+      share model applies.
+    type: revenue-share
+    billingModel: Revenue Share (CPC/CPM)
+    features:
+      - Widget custom reporting API
+      - Website-level metrics (page views, revenue, CTR, organic clicks)
+      - Device and traffic source breakdowns
+      - Country and domain-level analytics
+      - Publisher dashboard access
+    apiAccess: true
+    apiIncluded: true
+  - name: Agency
+    description: Advertising agencies can manage multiple client accounts under a
+      single agency account. Includes fund transfer capabilities and consolidated
+      financial reporting via the Agency REST API.
+    type: managed
+    billingModel: CPC prepaid per client
+    features:
+      - Multi-client account management
+      - Client financial status reporting
+      - Agency-level expense reports by service type
+      - Fund transfers to client accounts
+      - Consolidated agency financial statistics
+    apiAccess: true
+    apiIncluded: true
+notes:
+  - MGID does not publicly list API-specific pricing tiers or rate-limit-based plans.
+  - All API access is granted to users with an active MGID account at no additional charge.
+  - Minimum deposit of $100 required to activate advertiser account.
+  - No CPA billing model is offered; CPA goals are pursued through optimization tools.
