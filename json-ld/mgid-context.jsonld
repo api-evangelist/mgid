@@ -1,0 +1,148 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "mgid": "https://www.mgid.com/vocab#",
+    "aid": "mgid:aid",
+    "baseURL": "mgid:baseURL",
+    "campaign": "mgid:campaign",
+    "teaser": "mgid:teaser",
+    "widget": "mgid:widget",
+    "publisher": "mgid:publisher",
+    "advertiser": "mgid:advertiser",
+    "agency": "mgid:agency",
+    "clientId": "mgid:clientId",
+    "campaignId": "mgid:campaignId",
+    "teaserId": "mgid:teaserId",
+    "widgetId": "mgid:widgetId",
+    "targeting": "mgid:targeting",
+    "conversion": "mgid:conversion",
+    "statistics": "mgid:statistics",
+    "impressions": "mgid:impressions",
+    "clicks": "mgid:clicks",
+    "revenue": "mgid:revenue",
+    "cpm": "mgid:cpm",
+    "ecpm": "mgid:ecpm",
+    "blocklist": "mgid:blocklist",
+    "moneyTransfer": "mgid:moneyTransfer",
+    "authToken": "mgid:authToken"
+  },
+  "@type": "APIReference",
+  "name": "MGID",
+  "description": "MGID is a native advertising platform providing a REST API for managing publishers, advertisers, and agencies. The API enables management of campaigns, ad teasers, widgets, conversion tracking, geo and device targeting, and access to detailed traffic and revenue analytics for content monetization across native, display, and video ad formats.",
+  "url": "https://www.mgid.com",
+  "documentation": "https://help.mgid.com/api",
+  "provider": {
+    "@type": "Organization",
+    "name": "MGID",
+    "url": "https://www.mgid.com",
+    "sameAs": [
+      "https://github.com/mgid",
+      "https://www.linkedin.com/company/mgid-inc-",
+      "https://twitter.com/MGID"
+    ]
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "https://help.mgid.com/mgids-pricing-and-billing-model"
+  },
+  "hasPart": [
+    {
+      "@type": "WebAPI",
+      "name": "MGID Advertiser API",
+      "description": "REST API for advertisers and agencies to manage campaigns, teasers, targeting, conversion tracking, and access detailed statistics and reporting for native advertising campaigns.",
+      "documentation": "https://help.mgid.com/api-advertisers/",
+      "url": "https://api.mgid.com/v1",
+      "termsOfService": "https://www.mgid.com",
+      "potentialAction": [
+        {
+          "@type": "Action",
+          "name": "List Campaigns",
+          "target": "https://api.mgid.com/v1/goodhits/clients/{client_id}/campaigns"
+        },
+        {
+          "@type": "Action",
+          "name": "Create Campaign",
+          "target": "https://api.mgid.com/v1/goodhits/clients/{client_id}/campaigns"
+        },
+        {
+          "@type": "Action",
+          "name": "Get Campaign Statistics",
+          "target": "https://api.mgid.com/v1/goodhits/campaigns/{campaign_id}/statistics"
+        },
+        {
+          "@type": "Action",
+          "name": "List Teasers",
+          "target": "https://api.mgid.com/v1/goodhits/clients/{client_id}/teasers"
+        },
+        {
+          "@type": "Action",
+          "name": "Create Teaser",
+          "target": "https://api.mgid.com/v1/goodhits/clients/{client_id}/teasers"
+        },
+        {
+          "@type": "Action",
+          "name": "Geo Targeting",
+          "target": "https://api.mgid.com/v1/goodhits/campaigns/{campaign_id}/targetings/geo"
+        },
+        {
+          "@type": "Action",
+          "name": "Conversion Tracking",
+          "target": "https://api.mgid.com/v1/goodhits/campaigns/{campaign_id}/conversions"
+        }
+      ]
+    },
+    {
+      "@type": "WebAPI",
+      "name": "MGID Publisher API",
+      "description": "REST API for publishers to retrieve widget and website performance metrics including impressions, clicks, revenue, CPM, eCPM, visibility rates, and traffic analytics broken down by date, device, country, and traffic source.",
+      "documentation": "https://help.mgid.com/api-publishers",
+      "url": "https://api.mgid.com",
+      "potentialAction": [
+        {
+          "@type": "Action",
+          "name": "Widget Custom Report",
+          "target": "https://api.mgid.com/v1/publishers/{authId}/widget-custom-report"
+        },
+        {
+          "@type": "Action",
+          "name": "Website Custom Report",
+          "target": "https://api.mgid.com/v2/pub/account/{clientId}/website-custom-report"
+        }
+      ]
+    },
+    {
+      "@type": "WebAPI",
+      "name": "MGID Agency API",
+      "description": "REST API for advertising agencies to manage client accounts, retrieve financial statistics, view expense reports by service type, and transfer funds between agency and client accounts.",
+      "documentation": "https://help.mgid.com/api-ra",
+      "url": "https://api.mgid.com/v1",
+      "potentialAction": [
+        {
+          "@type": "Action",
+          "name": "List Agency Clients",
+          "target": "https://api.mgid.com/v1/agencies/{accountId}/clients"
+        },
+        {
+          "@type": "Action",
+          "name": "Get Client Financial Statistics",
+          "target": "https://api.mgid.com/v1/agencies/{accountId}/clients/{client_id}"
+        },
+        {
+          "@type": "Action",
+          "name": "Get Agency Financial Statistics",
+          "target": "https://api.mgid.com/v1/agencies/{accountId}"
+        },
+        {
+          "@type": "Action",
+          "name": "Get Client Expense Reports",
+          "target": "https://api.mgid.com/v1/agencies/{accountId}/clients-spent-reports"
+        },
+        {
+          "@type": "Action",
+          "name": "Transfer Funds to Client",
+          "target": "https://api.mgid.com/v1/agencies/{accountId}/clients/{client_id}/money-transfers"
+        }
+      ]
+    }
+  ]
+}
