@@ -62,5 +62,14 @@
       "date": "2025-04-09",
       "author": "Sergio Vives"
     }
-  ]
+  ],
+  "repo": "mgid",
+  "feeds": [
+    {
+      "source": "https://www.linkedin.com/company/mgid-inc-",
+      "error": "HTTPError"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-06-14T20:42:17Z"
 }
