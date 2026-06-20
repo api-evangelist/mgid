@@ -5,7 +5,7 @@ description: MGID is a native advertising platform providing a REST API for mana
   ad teasers, widgets, conversion tracking, geo and device targeting, and access to
   detailed traffic and revenue analytics for content monetization across native, display,
   and video ad formats.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/mgid/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -25,7 +25,7 @@ apis:
     description: REST API for advertisers and agencies to manage campaigns, teasers,
       targeting, conversion tracking, and access detailed statistics and reporting
       for native advertising campaigns.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://help.mgid.com/api-advertisers/
     baseURL: https://api.mgid.com/v1
     tags:
@@ -44,7 +44,7 @@ apis:
     description: REST API for publishers to retrieve widget and website performance
       metrics including impressions, clicks, revenue, CPM, eCPM, visibility rates,
       and traffic analytics broken down by date, device, country, and traffic source.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://help.mgid.com/api-publishers
     baseURL: https://api.mgid.com
     tags:
@@ -63,7 +63,7 @@ apis:
     description: REST API for advertising agencies to manage client accounts, retrieve
       financial statistics, view expense reports by service type, and transfer funds
       between agency and client accounts.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://help.mgid.com/api-ra
     baseURL: https://api.mgid.com/v1
     tags:
