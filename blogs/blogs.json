@@ -2,13 +2,11 @@
   "repo": "mgid",
   "feeds": [
     {
-      "source": "https://www.mgid.com/blog",
-      "feed_url": "",
-      "saved": 1,
-      "method": "agent-scrape"
+      "source": "https://www.linkedin.com/company/mgid-inc-",
+      "error": "HTTPError"
     }
   ],
-  "post_count": 4,
-  "fetched": "2026-06-27T12:54:37Z",
+  "post_count": 6,
+  "fetched": "2026-07-11T11:50:51Z",
   "agent_pulled": "2026-06-27"
 }
