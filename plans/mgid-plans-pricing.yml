@@ -1,3 +1,13 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.mgid.com/mgids-pricing-and-billing-model
+plan_count: 3
+plan_count_note: >-
+  MGID publishes no subscription tiers and no API-priced plans. The three
+  entries below are the platform's commercial models (self-serve CPC
+  advertiser, publisher revenue share, agency), not purchasable API plans —
+  API access carries no separate charge and is included with any active
+  account. Verified against the pricing and billing model page on 2026-08-12.
 name: MGID Plans and Pricing
 description: MGID operates on a Cost-Per-Click (CPC) prepaid advertising model with
   no fixed subscription tiers. Advertisers set their own CPC rate and budget, paying
@@ -5,7 +15,7 @@ description: MGID operates on a Cost-Per-Click (CPC) prepaid advertising model w
   access fees — API access is included with any active MGID account.
 url: https://help.mgid.com/mgids-pricing-and-billing-model
 created: '2026-06-13'
-modified: '2026-06-13'
+modified: '2026-08-12'
 plans:
   - name: Self-Serve Advertiser
     description: Standard access to the MGID platform and REST API for advertisers.

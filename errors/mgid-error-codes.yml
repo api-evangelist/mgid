@@ -1,0 +1,249 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.mgid.com/api-advertisers/
+docs:
+  - https://help.mgid.com/api-advertisers/
+  - https://help.mgid.com/api-publishers
+  - https://help.mgid.com/api-ra
+format: proprietary
+note: >-
+  MGID does not use RFC 9457 problem+json. Errors are returned as a proprietary
+  JSON envelope with a single `errors` key holding an array of bracketed
+  SCREAMING_SNAKE_CASE code strings, e.g. {"errors":["[ERROR_CAMPAIGN_DOES_NOT_EXIST]"]}.
+  The agency surface returns human-readable sentences on the same `errors` key
+  instead of coded strings, so the envelope is consistent across surfaces but the
+  payload vocabulary is not. Codes below are transcribed verbatim from the
+  published reference pages; MGID publishes no separate error-reference page, no
+  numeric class scheme, and no remediation text — the code string is the whole
+  contract. `[ERROR_RESOURCE_NOT_FOUND]` was also observed live on an
+  unauthenticated GET to https://api.mgid.com/v1/campaigns on 2026-08-12.
+envelope:
+  shape: '{"errors": ["[CODE]"]}'
+  field: errors
+  type: array
+  code_style: bracketed SCREAMING_SNAKE_CASE
+  message_field: null
+  request_id_field: null
+  type_uri: false
+  interpolation:
+    - token: '%'
+      meaning: server-substituted numeric threshold, e.g. [ERROR_MINIMAL_DAILY_BUDGET_LIMIT_IS_%]
+    - token: '{max_allowed_limit}'
+      meaning: server-substituted page-size ceiling, e.g. [ERROR_MAX_LIMIT_PER_PAGE_{max_allowed_limit}]
+    - token: parameter_name
+      meaning: server-substituted parameter name, e.g. [ERROR_NOT_VALID_parameter_name]
+status_codes:
+  - status: 200
+    meaning: OK
+    surfaces: [advertiser, publisher, agency]
+  - status: 400
+    meaning: Bad Request — syntax error in the request
+    surfaces: [publisher]
+  - status: 401
+    meaning: Unauthorized — invalid or missing token
+    surfaces: [advertiser, publisher, agency]
+    observed: true
+  - status: 404
+    meaning: Not Found — item not found
+    surfaces: [advertiser, publisher]
+    observed: true
+  - status: 422
+    meaning: Unprocessable Entity — invalid parameters
+    surfaces: [publisher]
+error_codes:
+  - code: '[ERROR_RESOURCE_NOT_FOUND]'
+    category: routing
+    meaning: The requested path or resource does not exist.
+    observed_live: true
+  - code: '[ERROR_NOT_VALID_METHOD]'
+    category: routing
+    meaning: HTTP method not permitted on this resource.
+  - code: '[ERROR_INVALID_PARAMETER]'
+    category: validation
+    meaning: A supplied parameter failed validation.
+  - code: '[ERROR_NOT_VALID_parameter_name]'
+    category: validation
+    meaning: The named parameter failed validation (name interpolated by the server).
+  - code: '[ERROR_NOT_VALID_TYPE]'
+    category: validation
+  - code: '[NOT_ENOUGH_PARAMETERS]'
+    category: validation
+  - code: '[ERROR_NO_ENOUGH_PARAMETERS]'
+    category: validation
+  - code: '[VALIDATION_NOT_FLOAT]'
+    category: validation
+  - code: '[ERROR_WRONG_DATE_FORMAT]'
+    category: validation
+  - code: '[ERROR_INVALID_CUSTOM_DATES]'
+    category: validation
+  - code: '[INVALID_VALUE_FOR_INTERVAL]'
+    category: validation
+  - code: '[THERE_NO_DATA_IN_CHOSEN_PERIOD]'
+    category: reporting
+    meaning: The requested reporting window contains no rows.
+  - code: '[ERROR_TOO_MANY_CAMPAIGNS_USE_PARAMS_LIMIT_AND_START]'
+    category: pagination
+    meaning: Result set exceeds the unpaginated ceiling; use limit and start.
+  - code: '[ERROR_MAX_LIMIT_PER_PAGE_500]'
+    category: pagination
+    meaning: limit exceeded the 500-campaign page ceiling.
+  - code: '[ERROR_MAX_LIMIT_PER_PAGE_{max_allowed_limit}]'
+    category: pagination
+    meaning: limit exceeded the per-endpoint page ceiling (value interpolated).
+  - code: '[ERROR_CAMPAIGN_DOES_NOT_EXIST]'
+    category: campaign
+  - code: '[WRONG_CAMPAIGN_ID]'
+    category: campaign
+  - code: '[ERROR_NOT_VALID_CAMPAIGN_ID]'
+    category: campaign
+  - code: '[ERROR_NOT_VALID_CAMPAIGN_TYPE]'
+    category: campaign
+  - code: '[ADVERTISE_NAME_EXISTS]'
+    category: campaign
+  - code: '[CAMPAIGN_NAME_TOO_LONG]'
+    category: campaign
+  - code: '[ERROR_CAMPAIGN_IS_NOT_TRANSPARENCY]'
+    category: campaign
+    meaning: Operation requires a transparency-enabled campaign.
+  - code: '[ERROR_CAMPAIGN_IS_NOT_TRANSPARENCY_CANT_CHANGE_QF]'
+    category: campaign
+  - code: '[ERROR_CAMPAIGN_IS_NOT_TRANSPARENCY_CANT_CHANGE_FILTER]'
+    category: campaign
+  - code: '[ERROR_CAMPAIGN_IS_DSP_CANT_CHANGE_QF]'
+    category: campaign
+  - code: '[ERROR_CAMPAIGN_HAS_ANOTHER_CONVERSIONS_DATA_SOURCE]'
+    category: conversions
+  - code: '[NOT_VALID_WHEN_AUTOSTART]'
+    category: campaign
+  - code: '[ERROR_GREATER_THAN_LIMIT_PER_DAY]'
+    category: budget
+  - code: '[MINIMAL_DAILY_BUDGET_LIMIT_ERROR]'
+    category: budget
+  - code: '[ERROR_MINIMAL_DAILY_BUDGET_LIMIT_IS_%]'
+    category: budget
+    meaning: Daily budget below the account minimum (threshold interpolated).
+  - code: '[ERROR_MINIMAL_DAILY_CLICKS_LIMIT_IS_%]'
+    category: budget
+  - code: '[ERROR_OVERALL_BUDGET_LIMIT_LESS_THAN_DAILY_LIMIT]'
+    category: budget
+  - code: '[ERROR_OVERALL_CLICKS_LIMIT_LESS_THAN_DAILY_LIMIT]'
+    category: budget
+  - code: '[WRONG_USE_FLOATING_LIMIT]'
+    category: budget
+  - code: '[ERROR_SPLIT_DAILY_LIMIT_EVENLY_IS_AVAILABLE_IF_ONLY_DAILY_LIMIT_SET]'
+    category: budget
+  - code: '[EDIT_PRICE_REQUIRED_PRICES]'
+    category: bidding
+  - code: '[ONE_OR_MORE_REGIONS_HAVE_PRICE_HIGHER_THAN_ACCEPTABLE_PRICE]'
+    category: bidding
+  - code: '[ERROR_QUALITY_FACTOR_INVALID_FORMAT]'
+    category: optimization
+  - code: '[ERROR_WIDGET_QUALITY_FACTOR_INVALID_FORMAT]'
+    category: optimization
+  - code: "[WIDGETS OPTIMIZATION IS NOT AVAILABLE FOR THIS CAMPAIGN. THIS CAMPAIGN IS ALREADY USING SOURCES OPTIMIZATION]"
+    category: optimization
+    note: Published as a prose sentence inside the bracket form — an inconsistency in MGID's own code vocabulary.
+  - code: '[ERROR_PARAMETER_ENABLED_GEO_TARGETING_FLAG_CAN_NOT_BE_EMPTY]'
+    category: targeting
+  - code: '[ERROR_PARAMETER_GEO_TARGETS_CAN_NOT_BE_EMPTY]'
+    category: targeting
+  - code: '[ERROR_INVALID_COUNTRY_TARGETING]'
+    category: targeting
+  - code: '[ERROR_INVALID_OS_TARGETING]'
+    category: targeting
+  - code: '[ERROR_INVALID_BROWSER_TARGETING]'
+    category: targeting
+  - code: '[ERROR_PARAMETER_LANGUAGE_TARGETS_EMPTY]'
+    category: targeting
+  - code: '[ERROR_PARAMETER_LANGUAGE_TARGETS_VALUE_INVALID]'
+    category: targeting
+  - code: '[ERROR_PARAMETER_LANGUAGE_CODE_INVALID]'
+    category: targeting
+  - code: '[WIDGETS_WITH_THESE_IDS_DO_NOT_EXIST]'
+    category: inventory
+  - code: '[WIDGETS_IDS_CANNOT_BE_EMPTY]'
+    category: inventory
+  - code: '[ERROR_WIDGETUID_INVALID_FORMAT]'
+    category: inventory
+  - code: '[SOURCES_DO_NOT_EXIST]'
+    category: inventory
+  - code: '[ERROR_SOURCES_DO_NOT_EXIST]'
+    category: inventory
+  - code: '[SOURCES_CANNOT_BE_EMPTY]'
+    category: inventory
+  - code: '[ERROR_SOURCE_INVALID_FORMAT]'
+    category: inventory
+  - code: '[SOURCE_CANT_BE_CHANGED_ADDED_TO_THE_CLIENT_BLOCKLIST]'
+    category: inventory
+  - code: '[ERROR_NOT_VALID_FILTER_TYPE]'
+    category: inventory
+  - code: '[TARGET_ID_EMPTY]'
+    category: conversions
+  - code: '[TARGET_ID_INVALID]'
+    category: conversions
+  - code: '[CONVERSION_TARGET_UNIQUE_ERROR]'
+    category: conversions
+  - code: '[TEASER_DOES_NOT_EXIST]'
+    category: creative
+  - code: '[ERROR_PARAMETER_TITLE_CAN_NOT_BE_EMPTY]'
+    category: creative
+  - code: '[ERROR_TITLE_TOO_LONG]'
+    category: creative
+  - code: '[ERROR_ADVERT_TEXT_TOO_LONG]'
+    category: creative
+  - code: '[ERROR_PARAMETER_IMAGELINK_CAN_NOT_BE_EMPTY]'
+    category: creative
+  - code: '[LS_IMAGE_WRONG_EXTANTION]'
+    category: creative
+    note: Spelling is MGID's own ("EXTANTION").
+  - code: "[LS_CAB_'51'_MORE_THAN_'50']"
+    category: creative
+  - code: '[ERROR_PARAMETER_URL_CAN_NOT_BE_EMPTY]'
+    category: creative
+  - code: '[ERROR_PARAMETER_CAMPAIGNID_CAN_NOT_BE_EMPTY]'
+    category: creative
+  - code: '[ERROR_PARAMETER_CATEGORY_CAN_NOT_BE_EMPTY]'
+    category: creative
+  - code: '[ERROR_PARAMETER_CATEGORY_INCORRECT_FOR_THIS_CAMPAIGN_TYPE]'
+    category: creative
+  - code: '[ERROR_PARAMETER_PRICEOFCLICK_CAN_NOT_BE_EMPTY]'
+    category: creative
+  - code: '[ERROR_PARAMETER_WHETHERSHOWGOODPRICE_CAN_NOT_BE_EMPTY]'
+    category: creative
+  - code: '[ERROR_EDITING_TEASER_ON_MODERATION_NOT_PERMITTED]'
+    category: creative
+    meaning: The creative is in moderation and cannot be edited.
+  - code: '[VALIDATION_MACRO_WAS_FOUND_TITLE_PUSH]'
+    category: creative
+  - code: '[ERROR_PARAMETER_POST_SEND]'
+    category: creative
+  - code: '[UTM_TAGGING_FIELDS_MUST_NOT_BE_EMPTY]'
+    category: tracking
+  - code: '[UTM_SOURCE_TOO_LONG_STR]'
+    category: tracking
+  - code: '[UTM_MEDIUM_TOO_LONG_STR]'
+    category: tracking
+  - code: '[UTM_CAMPAIGN_TOO_LONG_STR]'
+    category: tracking
+  - code: '[UTM_CUSTOM_TOO_LONG_STR]'
+    category: tracking
+  - code: '[WRONG_UTM_CUSTOM_FORMAT]'
+    category: tracking
+  - code: '[ERROR_MGCLID_MGCLIDA_SYSTEM_PARAMETERS_CANNOT_USE_THEM]'
+    category: tracking
+    meaning: mgclid / mgclida are reserved system parameters and cannot be set by the caller.
+agency_messages:
+  note: >-
+    The agency (RA) surface returns prose rather than bracketed codes on the same
+    `errors` key. Transcribed verbatim from https://help.mgid.com/api-ra.
+  messages:
+    - invalid token
+    - Invalid client id
+    - The amount of money in the account is less than what you are trying to transfer
+    - Account (client, amount) is not specified
+gaps:
+  - No RFC 9457 application/problem+json representation.
+  - No stable type URI, documentation link or remediation text per code.
+  - No request/correlation id on the error envelope, so failures are not traceable to a support case.
+  - No published mapping from code string to HTTP status.
+  - Agency surface uses prose messages while advertiser/publisher use code strings.

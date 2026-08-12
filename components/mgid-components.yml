@@ -1,0 +1,108 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.mgid.com/mgid-widget-code-direct-installation
+docs:
+  - https://help.mgid.com/mgid-widget-code-direct-installation
+  - https://help.mgid.com/how-do-i-add-the-widget-to-the-website
+  - https://help.mgid.com/how-can-i-place-my-widgets-on-amp-pages
+  - https://www.mgid.com/blog/introducing-the-updated-simple-js-code
+note: >-
+  MGID's publisher-facing product is delivered as client-side embed components
+  rather than through the REST API — the REST surface only reports on inventory
+  that these components serve. Distinct from packages/mgid-packages.yml, which
+  catalogues installable libraries.
+families:
+  - name: Simple JS widget code
+    kind: script-embed
+    status: current
+    description: >-
+      MGID's website-level installation tag, a single JavaScript include that
+      renders one or more widget containers on the page. Introduced as the
+      replacement for the older Short Code, positioned as lighter weight with
+      fewer publisher-side steps.
+    replaces: Short Code
+    docs: https://help.mgid.com/mgid-widget-code-direct-installation
+    announcement: https://www.mgid.com/blog/introducing-the-updated-simple-js-code
+    versioned_distribution: false
+    version: null
+    version_note: >-
+      The tag is copied out of the publisher dashboard per widget and is not
+      distributed through a registry or a pinned CDN URL, so a publisher cannot
+      tell which build they are running and neither can we.
+  - name: AMP embed
+    kind: amp-component
+    status: current
+    description: >-
+      MGID inventory on AMP pages via the standard AMP <amp-embed> element with
+      type="mgid".
+    element: amp-embed
+    attributes:
+      - type
+      - width
+      - height
+      - layout
+      - data-publisher
+      - data-widget
+      - data-container
+    docs: https://help.mgid.com/how-can-i-place-my-widgets-on-amp-pages
+    upstream: https://github.com/mgid/amphtml
+    version: null
+    version_note: Ships inside the AMP runtime; MGID maintains a fork of ampproject/amphtml.
+  - name: react-mgid-widget
+    kind: framework-component
+    framework: react
+    status: current
+    description: React component that mounts an MGID widget inside a React application.
+    registry: npm
+    package: react-mgid-widget
+    url: https://www.npmjs.com/package/react-mgid-widget
+    source: https://github.com/mgid/react-mgid-widget
+    official: true
+    version: 0.2.0
+    published: '2026-01-08'
+  - name: Google Tag Manager template
+    kind: tag-template
+    status: current
+    description: MGID client-side tag template for Google Tag Manager.
+    source: https://github.com/mgid/gtm-template
+    version: null
+    version_note: Distributed through the GTM community template gallery; no semantic version published.
+  - name: Google Tag Manager server-side template
+    kind: tag-template
+    status: current
+    description: MGID Server-Side Tag for Google Tag Manager, for server-container conversion forwarding.
+    source: https://github.com/mgid/gtm-server-template
+    version: null
+  - name: Prebid.js bid adapter
+    kind: header-bidding-adapter
+    status: current
+    description: >-
+      MGID demand exposed to publishers as a Prebid.js client-side bid adapter
+      (bidder code "mgid"), with a matching Prebid Server adapter. Display and
+      native, multi-format.
+    bidder_code: mgid
+    docs: https://docs.prebid.org/dev-docs/bidders/mgid.html
+    upstream:
+      - https://github.com/mgid/Prebid.js
+      - https://github.com/mgid/prebid-server
+    version: null
+    version_note: Ships inside the Prebid.js release train, not versioned independently by MGID.
+platform_installers:
+  note: Guided install paths for the Simple JS tag on hosted CMS platforms.
+  entries:
+    - platform: WordPress
+      docs: https://help.mgid.com/how-to-add-widgets-to-wordpress
+    - platform: Wix
+      docs: https://help.mgid.com/mgid-widget-code-installation-on-wix.com
+    - platform: Blogger
+      docs: https://help.mgid.com/how-to-add-mgid-code-to-your-blogger
+summary:
+  families: 6
+  registry_distributed: 1
+  unpinned_distributions: 5
+gaps:
+  - >-
+    Only react-mgid-widget is registry-distributed and version-pinned. The Simple
+    JS tag, the GTM templates and the AMP element are all unpinned, so a
+    publisher has no way to identify or pin the build they are serving.
+  - No embeddable dashboard or hosted reporting surface is published.

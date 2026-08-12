@@ -1,0 +1,94 @@
+generated: '2026-08-12'
+method: probed
+source: live HTTPS probes of every apis.yml baseURL host, the website host and the docs host
+note: >-
+  Every /.well-known/ path probed returned a miss. No WellKnown or SecurityTxt
+  pointer is emitted for this provider — the probe records an absence, not a
+  presence. api.mgid.com answers 520 (Cloudflare origin error) at its document
+  root and for every /.well-known/ path while the versioned API prefix
+  https://api.mgid.com/v1/ is live and answers 401 with
+  {"errors":"Authentication token is missing"}; the origin simply does not serve
+  anything outside the /v1 and /v2 API prefixes. www.mgid.com and
+  dashboard.mgid.com return 403 Forbidden from nginx for the whole
+  /.well-known/ namespace. help.mgid.com (the docs host) returns its 404 page.
+hosts:
+  - host: https://api.mgid.com
+    role: api
+    documents:
+      - path: /.well-known/security.txt
+        status: 520
+      - path: /.well-known/openid-configuration
+        status: 520
+      - path: /.well-known/oauth-authorization-server
+        status: 520
+      - path: /.well-known/api-catalog
+        status: 520
+      - path: /.well-known/ai-plugin.json
+        status: 520
+      - path: /.well-known/agent-card.json
+        status: 520
+      - path: /.well-known/agent.json
+        status: 520
+      - path: /v1/.well-known/agent-card.json
+        status: 404
+        note: '[ERROR_RESOURCE_NOT_FOUND] — the live API returned its own JSON 404'
+  - host: https://www.mgid.com
+    role: website
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+      - path: /.well-known/openid-configuration
+        status: 403
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+      - path: /.well-known/api-catalog
+        status: 403
+      - path: /.well-known/ai-plugin.json
+        status: 403
+      - path: /.well-known/agent-card.json
+        status: 403
+      - path: /.well-known/agent.json
+        status: 403
+  - host: https://help.mgid.com
+    role: documentation
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://dashboard.mgid.com
+    role: console
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+      - path: /.well-known/openid-configuration
+        status: 403
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+      - path: /.well-known/api-catalog
+        status: 403
+      - path: /.well-known/ai-plugin.json
+        status: 403
+      - path: /.well-known/agent-card.json
+        status: 403
+      - path: /.well-known/agent.json
+        status: 403
+summary:
+  documents_found: 0
+  security_txt: false
+  openid_configuration: false
+  oauth_authorization_server: false
+  api_catalog: false
+  ai_plugin: false
+  agent_card: false
+  pointer_emitted: false

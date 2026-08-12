@@ -1,61 +1,110 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.mgid.com/api-advertisers/
 name: MGID API Rate Limits
-description: MGID does not publicly document specific rate limits for its REST API.
-  The API uses Bearer token authentication with 32-character tokens that expire after
-  an unspecified period, requiring token refresh. Applications should implement token
-  refresh logic and apply reasonable request pacing. The reporting endpoints support
-  a maximum of 90 days per date range query with pagination of up to 1000 records
-  per page.
+description: >-
+  MGID publishes no rate limits for any of its three REST APIs — no
+  requests-per-second or per-day ceiling, no rate-limit response headers, no
+  Retry-After, and no documented status code on exhaustion. What MGID does
+  publish are per-request volume constraints: page-size ceilings that differ per
+  endpoint (500 campaigns, 1,000 report rows on the advertiser surface, 100,000
+  rows on the publisher surface) and a 90-day maximum reporting window. Those are
+  captured below because they are the only published throughput controls a client
+  can plan against.
 url: https://help.mgid.com/api-advertisers/
+docs:
+  - https://help.mgid.com/api-advertisers/
+  - https://help.mgid.com/api-publishers
+  - https://help.mgid.com/api-ra
 created: '2026-06-13'
-modified: '2026-06-13'
+modified: '2026-08-12'
+limit_count: 0
+limit_count_note: >-
+  Zero published request-rate limits. The entries below are volume and window
+  constraints, not rate limits, and are typed accordingly.
+response_headers:
+  documented: false
+  ratelimit_headers: []
+  retry_after: false
+  status_on_exhaustion: null
+  note: >-
+    No X-RateLimit-*, RateLimit-* (RFC 9239 draft) or Retry-After header is
+    documented on any of the three reference pages, and no 429 response is
+    described. An agent has no runtime signal for how much budget it has left or
+    when to retry.
 rateLimits:
-  - scope: API (all endpoints)
+  - scope: all endpoints (per token / per account)
+    type: rate
     documented: false
-    notes: MGID does not publicly disclose specific rate limits (requests per minute
-      or per day) for any API tier. No rate limit headers are documented in official
-      API docs.
-  - scope: Token Expiry
-    type: session
+    limit: null
+    window: null
+    notes: >-
+      MGID does not publish a request rate limit for any API or tier, and
+      documents no rate-limit headers.
+  - scope: advertiser — GET /v1/goodhits/clients/{client_id}/campaigns
+    type: page-size
     documented: true
-    description: Bearer tokens (32 characters) expire after an unspecified interval.
-      Applications must handle token expiry and re-authenticate via the auth/token
-      endpoint with email and password credentials.
-    action: POST to auth/token endpoint to obtain a new token
-  - scope: Statistics Reporting Date Range
-    type: query-constraint
+    max: 500
+    params: [limit, start]
+    error_on_exceed: '[ERROR_MAX_LIMIT_PER_PAGE_500]'
+    error_when_unpaginated: '[ERROR_TOO_MANY_CAMPAIGNS_USE_PARAMS_LIMIT_AND_START]'
+  - scope: advertiser — GET /v1/goodhits/clients/{client_id}/statistics-reports
+    type: page-size
     documented: true
-    maxDays: 90
-    description: The granular statistics reporting endpoint supports a maximum date
-      range of 90 days per request.
-  - scope: Statistics Reporting Pagination
-    type: pagination
+    default: 20
+    max: 1000
+    params: [limit, offset]
+  - scope: advertiser — GET /v1/goodhits/clients/{client_id}/statistics-reports
+    type: query-window
     documented: true
-    defaultPageSize: 20
-    maxPageSize: 1000
-    description: Reporting endpoints support pagination via limit and offset parameters.
-      Default page size is 20 records; maximum is 1000 records per page.
+    max_days: 90
+    params:
+      - 'filters[dateRange][dateFrom]'
+      - 'filters[dateRange][dateTo]'
+    description: 'Max range = 90 days per request.'
+  - scope: advertiser — GET /v1/goodhits/clients/{client_id}/statistics-reports
+    type: query-cardinality
+    documented: true
+    max_dimensions: 3
+    description: A maximum of three dimensions may be requested per report.
+  - scope: publisher v1 — GET /v1/publishers/{authId}/widget-custom-report
+    type: page-size
+    documented: true
+    max: 100000
+    params: [page, perPage]
+  - scope: publisher v2 — GET /v2/pub/account/{clientId}/website-custom-report
+    type: page-size
+    documented: true
+    default: 1000
+    max: 100000
+    params: [limit, offset]
+  - scope: generic page-size ceiling
+    type: page-size
+    documented: true
+    error_on_exceed: '[ERROR_MAX_LIMIT_PER_PAGE_{max_allowed_limit}]'
+    description: >-
+      Endpoints other than campaigns return the ceiling interpolated into the
+      error string rather than publishing it in the docs.
 protocols:
-  - name: HTTPS Required
+  - name: HTTPS required
     documented: true
-    description: All API requests must use HTTPS. HTTP requests are not supported.
+    description: '"all API requests must be performed via HTTPS". HTTP is not supported.'
 authentication:
-  type: Bearer Token
-  tokenLength: 32 characters
-  headerName: Authorization
-  headerFormat: 'Bearer {token}'
-  tokenExpiry: unspecified (tokens expire; applications must refresh)
-  obtainToken:
-    endpoint: POST auth/token
-    credentials:
-      - email
-      - password
-    returns:
-      - token
-      - idAuth
+  type: bearer token
+  token_length: 32
+  header: 'Authorization: Bearer {token}'
+  obtained_from: MGID dashboard
+  token_endpoint: null
+  expiry_documented: false
+  detail: authentication/mgid-authentication.yml
+  correction_note: >-
+    A prior round of this file asserted a "POST auth/token endpoint" taking email
+    and password and returning token + idAuth, and that tokens expire. None of
+    that is documented on help.mgid.com/api-advertisers, /api-publishers or
+    /api-ra, which state only that the 32-character token is obtained from the
+    dashboard. The claim has been removed as unverifiable.
 recommendations:
-  - Implement automatic token refresh when API returns authentication errors.
-  - Apply conservative request pacing (e.g., 1-2 requests per second) as a best practice
-    given no published rate limits.
-  - Use pagination efficiently; request up to 1000 records per page for bulk data retrieval.
-  - Limit date ranges to 90 days or fewer in reporting queries.
-  - Contact MGID support or your account manager for enterprise-level rate limit information.
+  - Page defensively — the ceiling differs per endpoint and is sometimes only revealed inside an error string.
+  - Chunk reporting queries to 90-day windows on the advertiser statistics-reports endpoint.
+  - Treat any non-200 as unclassified back-pressure; there is no Retry-After to honour, so use client-side exponential backoff.
+  - Contact an MGID account manager for account-level throughput expectations; none are published.

@@ -1,0 +1,156 @@
+generated: '2026-08-12'
+method: searched
+source: https://registry.npmjs.org/ + https://repo.packagist.org/ + https://github.com/mgid
+note: >-
+  MGID publishes NO client SDK for its three REST APIs — not on npm, PyPI,
+  Packagist, RubyGems, crates.io, NuGet, Maven Central or pkg.go.dev, and none is
+  linked from any of the three reference pages on help.mgid.com. The first-party
+  packages that do exist are (a) one client-side widget-embedding library for
+  React and (b) a set of internal PHP/infrastructure utilities MGID open-sourced
+  under its own vendor namespace. Every entry carries `version:` and `published:`
+  read from the registry metadata endpoint on 2026-08-12; `api_client:` records
+  whether the package actually wraps the MGID REST API.
+registries_probed:
+  - registry: npm
+    endpoint: https://registry.npmjs.org/-/v1/search?text=mgid
+    first_party_hits: 3
+  - registry: pypi
+    endpoint: https://pypi.org/pypi/mgid/json
+    status: 404
+    first_party_hits: 0
+  - registry: packagist
+    endpoint: https://packagist.org/search.json?q=mgid
+    first_party_hits: 4
+  - registry: rubygems
+    endpoint: https://rubygems.org/api/v1/search.json?query=mgid
+    first_party_hits: 0
+  - registry: crates.io
+    first_party_hits: 0
+  - registry: nuget
+    first_party_hits: 0
+  - registry: maven-central
+    first_party_hits: 0
+  - registry: pkg.go.dev
+    first_party_hits: 0
+packages:
+  - language: javascript
+    registry: npm
+    name: react-mgid-widget
+    url: https://www.npmjs.com/package/react-mgid-widget
+    source: https://github.com/mgid/react-mgid-widget
+    install: npm install react-mgid-widget
+    description: Embed your MGID widget inside a react app.
+    official: true
+    official_evidence: >-
+      Source repository is github.com/mgid/react-mgid-widget, inside MGID's own
+      GitHub organization (github.com/mgid, org id 20519642).
+    api_client: false
+    api_client_note: >-
+      Client-side widget embed component for publishers, not a wrapper for the
+      REST APIs. See components/mgid-components.yml.
+    version: 0.2.0
+    published: '2026-01-08'
+  - language: javascript
+    registry: npm
+    name: mg-antiadblock
+    url: https://www.npmjs.com/package/mg-antiadblock
+    install: npm install mg-antiadblock
+    description: MGid AntiAdblock Module for Node.js.
+    official: true
+    official_evidence: 'npm maintainers include mgid-admin.'
+    api_client: false
+    version: 1.0.2
+    published: '2016-12-23'
+    status: abandoned
+    decay_note: >-
+      Last published 2016-12-23 — nearly ten years stale, and older than every
+      API surface currently documented. Treat as dead.
+  - language: javascript
+    registry: npm
+    name: '@mgid/vue-tables-2'
+    url: https://www.npmjs.com/package/@mgid/vue-tables-2
+    install: npm install @mgid/vue-tables-2
+    description: Vue.js 2 grid components.
+    official: true
+    official_evidence: 'Published under MGID''s own @mgid npm scope; mirrors github.com/mgid/vue-tables-2.'
+    api_client: false
+    api_client_note: MGID's fork of a third-party Vue grid library. Internal UI tooling, unrelated to the APIs.
+    version: 1.5.1
+    published: '2019-07-30'
+    status: abandoned
+  - language: php
+    registry: packagist
+    name: mgid/phpmorphy
+    url: https://packagist.org/packages/mgid/phpmorphy
+    source: https://github.com/mgid/phpmorphy
+    install: composer require mgid/phpmorphy
+    description: phpMorphy — morphological analyzer library for Russian, English, German and Ukrainian.
+    official: true
+    official_evidence: Published under the mgid/ Packagist vendor namespace from github.com/mgid.
+    api_client: false
+    version: 0.1.3
+    published: '2025-04-15'
+  - language: php
+    registry: packagist
+    name: mgid/kafka-bundle
+    url: https://packagist.org/packages/mgid/kafka-bundle
+    source: https://github.com/mgid/kafka-bundle
+    install: composer require mgid/kafka-bundle
+    description: Symfony Kafka Bundle.
+    official: true
+    api_client: false
+    version: 1.0.0
+    published: '2020-12-24'
+    status: abandoned
+  - language: php
+    registry: packagist
+    name: mgid/pagination-bundle
+    url: https://packagist.org/packages/mgid/pagination-bundle
+    source: https://github.com/mgid/pagination-bundle
+    install: composer require mgid/pagination-bundle
+    description: Symfony Pagination Bundle.
+    official: true
+    api_client: false
+    version: 1.0.0
+    published: '2020-12-24'
+    status: abandoned
+  - language: php
+    registry: packagist
+    name: mgid/pagination
+    url: https://packagist.org/packages/mgid/pagination
+    source: https://github.com/mgid/pagination
+    install: composer require mgid/pagination
+    description: Pagination Library.
+    official: true
+    api_client: false
+    version: 1.0.0
+    published: '2020-12-24'
+    status: abandoned
+third_party:
+  note: >-
+    Recorded for context only — not MGID-published, not counted as an SDK.
+  entries:
+    - name: dltHub MGID advertisers source
+      url: https://dlthub.com/context/source/mgid-advertisers
+      language: python
+      official: false
+    - name: Joinative MGID API guide (Python/Jupyter walkthrough)
+      url: https://joinative.com/mgid-api-guide
+      language: python
+      official: false
+summary:
+  first_party_packages: 7
+  api_client_sdks: 0
+  languages: [javascript, php]
+  most_recent_first_party_release: '2026-01-08'
+  sdks_pointer_emitted: false
+  sdks_pointer_note: >-
+    No `type: SDKs` pointer is wired in apis.yml. MGID publishes first-party
+    packages, but not one of them is a client library for the advertiser,
+    publisher or agency REST API, which is what the sdk_count check measures.
+    Emitting SDKs off react-mgid-widget (a publisher-side ad embed) would credit
+    MGID with an API SDK it has never shipped.
+gaps:
+  - No REST API client library in any language, official or maintained.
+  - Four of seven first-party packages have not shipped a release since 2020 or earlier.
+  - The three API reference pages link to no code, no sample repository and no collection.

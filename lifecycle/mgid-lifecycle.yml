@@ -1,0 +1,94 @@
+generated: '2026-08-12'
+method: searched
+source: https://status.mgid.com/api/v2/summary.json
+docs:
+  - https://help.mgid.com/api-advertisers/
+  - https://help.mgid.com/api-publishers
+  - https://status.mgid.com
+note: >-
+  MGID publishes no OpenAPI, so no deprecated operations could be derived. The
+  status page is a real Atlassian Statuspage with a machine-readable summary
+  endpoint and named API components; everything else in the lifecycle contract is
+  absent.
+versioning:
+  scheme: uri-path
+  current: v1
+  additional:
+    - version: v2
+      scope: publisher website-custom-report only
+      path: /v2/pub/account/{clientId}/website-custom-report
+  docs: https://help.mgid.com/api-advertisers/
+  note: >-
+    "The API version is embedded in the URL" — /v1/. A single v2 endpoint exists
+    on the publisher surface with a different pagination vocabulary; MGID
+    publishes no statement about which version is preferred or whether v1 will be
+    retired.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  notice_period: null
+  note: >-
+    No deprecation policy, no Sunset/Deprecation header support, and no advance
+    notice commitment is published on any of the three reference pages. No
+    Deprecation pointer is emitted.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  published: false
+  note: >-
+    No public SLA or uptime commitment. The advertiser TOS
+    (https://www.mgid.com/services/advertisers-tos) is the only published service
+    agreement and it carries no API availability target.
+status_page:
+  url: https://status.mgid.com
+  provider: Atlassian Statuspage
+  page_id: 1vc00jqc87fn
+  machine_readable:
+    summary: https://status.mgid.com/api/v2/summary.json
+    status: 200
+    observed: '2026-08-12'
+  components:
+    - name: Main page
+      status: operational
+    - name: Advertisers API
+      status: operational
+    - name: Publishers API
+      status: operational
+    - name: Dashboard
+      status: operational
+    - name: API
+      status: operational
+    - name: Widgets
+      status: operational
+    - name: Clicks
+      status: operational
+    - name: Interfaces
+      status: operational
+  open_incidents: 0
+  note: >-
+    Three of the eight tracked components are API surfaces — Advertisers API,
+    Publishers API and a generic API component — so the API is a first-class
+    citizen on MGID's status page. Incident history is exposed via the standard
+    Statuspage /api/v2/ endpoints.
+changelog:
+  url: null
+  published: false
+  note: >-
+    No dated changelog or release-notes page exists. help.mgid.com/whats-new and
+    /release-notes both return 404, and the blog category paths
+    /blog/category/product-updates and /blog/category/whats-new return the SPA
+    shell (soft 404). Product changes are announced as individual marketing blog
+    posts with no version numbers, so no ChangeLog artifact was written.
+support:
+  help_center: https://help.mgid.com/
+  faq: https://help.mgid.com/advertisers/faq
+  contact: https://www.mgid.com/contacts
+gaps:
+  - No deprecation or sunset policy.
+  - No SLA or uptime target.
+  - No dated changelog; API changes are not announced in a machine-followable form.
+  - Two live API versions coexist with no stated migration path.

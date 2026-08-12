@@ -1,0 +1,224 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.mgid.com/api-advertisers/
+docs:
+  - https://help.mgid.com/api-advertisers/
+  - https://help.mgid.com/api-publishers
+  - https://help.mgid.com/api-ra
+note: >-
+  MGID publishes no OpenAPI, so this entity graph could not be derived from
+  schema $refs. It is reconstructed from the URI hierarchy and the documented
+  parameters of the three REST reference pages — every entity below appears as a
+  path segment or a path identifier in a published endpoint, and every
+  relationship is read off nesting in the URI, not inferred. No field-level
+  schema is published, so attributes are limited to what the reference pages name
+  explicitly.
+entities:
+  - name: Agency
+    surface: agency
+    identifier: accountId
+    path: /v1/agencies/{accountId}
+    description: An advertising agency account that owns and funds client accounts.
+    attributes:
+      - personal account balance
+      - bonus account balance
+      - clients' balances
+  - name: Client
+    surface: advertiser, agency
+    identifier: client_id
+    path: /v1/clients/{client_id}
+    description: >-
+      The advertiser account. The unit of billing, of source blocklisting and of
+      every campaign/teaser path. Also the child of an Agency.
+    attributes:
+      - wallet balance
+      - credit
+      - income
+      - sources blocklist
+      - account-level filters
+  - name: Campaign
+    surface: advertiser
+    identifier: campaign_id
+    path: /v1/goodhits/clients/{client_id}/campaigns/{campaign_id}
+    description: A buying unit under a client, carrying budget, bidding, targeting and UTM tagging.
+    attributes:
+      - campaignType
+      - daily budget limit
+      - overall budget limit
+      - daily clicks limit
+      - priceOfClick
+      - quality factor
+      - autostart
+      - utm_source / utm_medium / utm_campaign / utm_custom
+      - transparency flag
+      - DSP flag
+  - name: Teaser
+    surface: advertiser
+    identifier: teaser_id
+    path: /v1/goodhits/clients/{client_id}/teasers/{teaser_id}
+    description: The ad creative (native "teaser") served inside a campaign. Subject to moderation.
+    attributes:
+      - title
+      - advert text
+      - imageLink
+      - url
+      - category
+      - campaignId
+      - priceOfClick
+      - whetherShowGoodPrice
+      - moderation state
+  - name: ConversionTarget
+    surface: advertiser
+    identifier: target_id
+    path: /v1/goodhits/clients/{client_id}/conversions-targets
+    description: >-
+      A named conversion goal a campaign attributes against. Bound to a campaign
+      via /v1/goodhits/campaigns/{campaign_id}/conversions; a campaign can carry
+      only one conversions data source
+      ([ERROR_CAMPAIGN_HAS_ANOTHER_CONVERSIONS_DATA_SOURCE]).
+  - name: Targeting
+    surface: advertiser
+    path: /v1/goodhits/campaigns/{campaign_id}/targetings/{dimension}
+    description: >-
+      Per-campaign targeting sub-resources, one per dimension. Not independently
+      addressable — they exist only under a campaign.
+    dimensions:
+      - geo
+      - browsers
+      - operatingsystems
+      - browserslanguage
+      - ip (set via PATCH on the campaign, not as a sub-resource)
+  - name: Widget
+    surface: advertiser (as inventory), publisher (as owned unit)
+    identifier: widgetId / widgetUid
+    description: >-
+      A publisher placement. Advertisers see widgets as inventory to allow, block
+      or quality-factor; publishers own widgets and report on them.
+    attributes:
+      - widgetId
+      - widgetName
+      - widget quality factor
+  - name: Source
+    surface: advertiser
+    identifier: uid / source
+    description: >-
+      A traffic source, blocklistable at client level
+      (/v1/clients/{client_id}/sources-blocklist) or optimizable at campaign
+      level. A campaign uses either widget optimization or source optimization,
+      never both.
+  - name: Website
+    surface: publisher
+    identifier: siteId / website / domain
+    description: A publisher property carrying widgets, reported on in the v2 website-custom-report.
+  - name: PublisherAccount
+    surface: publisher
+    identifier: authId (v1) / clientId (v2)
+    path: /v1/publishers/{authId}, /v2/pub/account/{clientId}
+    description: >-
+      The publisher account. Note the identifier is named differently between the
+      v1 and v2 publisher endpoints for the same real-world entity.
+  - name: MoneyTransfer
+    surface: agency
+    path: /v1/agencies/{accountId}/clients/{client_id}/money-transfers
+    description: A funds movement from an agency personal or bonus account to a client account.
+    attributes:
+      - account_type (personal | bonus)
+      - transfer_amount
+  - name: StatisticsReport
+    surface: advertiser, publisher
+    description: >-
+      Not a stored entity — a query result. Both surfaces expose an analytics cube
+      addressed by dimensions + metrics rather than by resource id. See
+      conventions/mgid-conventions.yml for the full dimension and metric
+      vocabularies.
+relationships:
+  - from: Agency
+    to: Client
+    type: has_many
+    via: /v1/agencies/{accountId}/clients
+  - from: Agency
+    to: MoneyTransfer
+    type: has_many
+    via: /v1/agencies/{accountId}/clients/{client_id}/money-transfers
+  - from: MoneyTransfer
+    to: Client
+    type: belongs_to
+    via: client_id
+  - from: Client
+    to: Campaign
+    type: has_many
+    via: /v1/goodhits/clients/{client_id}/campaigns
+  - from: Client
+    to: Teaser
+    type: has_many
+    via: /v1/goodhits/clients/{client_id}/teasers
+  - from: Client
+    to: ConversionTarget
+    type: has_many
+    via: /v1/goodhits/clients/{client_id}/conversions-targets
+  - from: Client
+    to: Source
+    type: has_many
+    via: /v1/clients/{client_id}/sources-blocklist
+  - from: Campaign
+    to: Teaser
+    type: has_many
+    via: teaser.campaignId
+  - from: Campaign
+    to: Targeting
+    type: has_many
+    via: /v1/goodhits/campaigns/{campaign_id}/targetings/{dimension}
+  - from: Campaign
+    to: ConversionTarget
+    type: has_one
+    via: /v1/goodhits/campaigns/{campaign_id}/conversions
+    note: One conversions data source per campaign is enforced.
+  - from: Campaign
+    to: Widget
+    type: has_many
+    via: quality-analysis / widget optimization
+  - from: Campaign
+    to: Source
+    type: has_many
+    via: quality-analysis-sources / source optimization
+  - from: Teaser
+    to: Campaign
+    type: belongs_to
+    via: campaignId
+  - from: PublisherAccount
+    to: Website
+    type: has_many
+    via: /v2/pub/account/{clientId}/website-custom-report (siteId / website)
+  - from: Website
+    to: Widget
+    type: has_many
+    via: widgetId dimension on the website-custom-report
+  - from: PublisherAccount
+    to: Widget
+    type: has_many
+    via: /v1/publishers/{authId}/widget-custom-report
+id_conventions:
+  prefixes: []
+  note: >-
+    MGID publishes no id prefixes or opaque id formats. All identifiers appear to
+    be bare numeric or string values; the reference pages give no format,
+    stability or uniqueness guarantee for any of them.
+  identifier_drift:
+    - entity: PublisherAccount
+      names: [authId, clientId]
+      note: The same account is addressed as authId on v1 and clientId on v2.
+    - entity: Client
+      names: [client_id, clientId, accountId]
+      note: >-
+        Snake-case on advertiser paths, camel-case on the campaigns-stat
+        endpoints, and accountId on the agency surface.
+surface_note: >-
+  "goodhits" is the legacy internal name for the advertising engine and prefixes
+  almost every advertiser path. Client- and campaign-scoped resources are split
+  across two roots — /v1/clients/... and /v1/goodhits/clients/... — with no
+  documented rule for which lives where.
+render: null
+gaps:
+  - No published field-level schema for any entity.
+  - No id format, stability or uniqueness guarantees.
+  - Same entity addressed under three different identifier names across surfaces.

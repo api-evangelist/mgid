@@ -20,7 +20,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/mgid.png
 url: https://raw.githubusercontent.com/api-evangelist/mgid/refs/heads/main/apis.yml
 created: '2026-06-13'
-modified: '2026-06-13'
+modified: '2026-08-12'
 specificationVersion: '0.19'
 type: Index
 tags:
@@ -95,8 +95,8 @@ common:
   - type: Website
     url: https://www.mgid.com
   - type: Documentation
-    url: https://help.mgid.com/api
-  - type: GitHubOrg
+    url: https://help.mgid.com/
+  - type: GitHubOrganization
     url: https://github.com/mgid
   - type: LinkedIn
     url: https://www.linkedin.com/company/mgid-inc-
@@ -114,6 +114,45 @@ common:
     url: rate-limits/mgid-rate-limits.yml
   - type: FinOps
     url: finops/mgid-finops.yml
+  - type: APIReference
+    url: https://help.mgid.com/api
+  - type: GettingStarted
+    url: https://help.mgid.com/advertisers/get-started-with-mgid-ads
+  - type: Support
+    url: https://www.mgid.com/contacts
+  - type: FAQ
+    url: https://help.mgid.com/advertisers/faq
+  - type: SignUp
+    url: https://dashboard.mgid.com/signup
+  - type: Login
+    url: https://dashboard.mgid.com/login
+  - type: TermsOfService
+    url: https://www.mgid.com/services/advertisers-tos
+  - type: PrivacyPolicy
+    url: https://www.mgid.com/services/privacy-policy
+  - type: Authentication
+    url: authentication/mgid-authentication.yml
+  - type: Conventions
+    url: conventions/mgid-conventions.yml
+  - type: ErrorCatalog
+    url: errors/mgid-error-codes.yml
+  - type: Lifecycle
+    url: lifecycle/mgid-lifecycle.yml
+  - type: Packages
+    url: packages/mgid-packages.yml
+  - type: Components
+    url: components/mgid-components.yml
+  - type: Conformance
+    url: conformance/mgid-conformance.yml
+  - type: DataModel
+    url: data-model/mgid-data-model.yml
+  - type: LLMsTxt
+    url: llms/mgid-llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-12'
+  status: enriched
+  artifacts_added: 10
+  pass: local-v1

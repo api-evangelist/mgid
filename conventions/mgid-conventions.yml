@@ -1,0 +1,180 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.mgid.com/api-advertisers/
+docs:
+  - https://help.mgid.com/api-advertisers/
+  - https://help.mgid.com/api-publishers
+  - https://help.mgid.com/api-ra
+  - https://help.mgid.com/postback-setup
+note: >-
+  Cross-cutting request/response semantics for the three MGID REST surfaces,
+  transcribed from the published reference pages. MGID ships no OpenAPI, so none
+  of this is derived from a spec — every row below is a documented statement or a
+  live observation against https://api.mgid.com/v1/.
+authentication:
+  style: static bearer token
+  header: 'Authorization: Bearer {token}'
+  token_length: 32
+  issuance: MGID dashboard, manual
+  detail: authentication/mgid-authentication.yml
+transport:
+  https_required: true
+  http_supported: false
+content_negotiation:
+  default_media_type: application/json
+  alternatives:
+    - application/xml
+  mechanism: Accept request header
+  note: >-
+    Both the advertiser and publisher references state the response format
+    defaults to JSON and can be switched to XML via the Accept header. XML on a
+    2026 REST API is unusual and worth noting for client generators.
+http_methods:
+  - method: GET
+    use: retrieve
+  - method: POST
+    use: create
+  - method: PUT
+    use: update / recreate the whole resource
+  - method: PATCH
+    use: modify specific properties
+  - method: DELETE
+    use: delete (campaign DELETE moves the campaign to trash rather than hard-deleting)
+idempotency:
+  supported: false
+  idempotency_key_header: null
+  detail: >-
+    MGID documents no idempotency key, no request-deduplication window and no
+    retry-safety contract on any of the three surfaces. PUT and DELETE are
+    idempotent only by HTTP method semantics. This matters most on the agency
+    money-transfer call POST /v1/agencies/{accountId}/clients/{client_id}/money-transfers,
+    which moves real funds and has no replay protection documented — a retried
+    request after a timeout cannot be made safe by the caller. No Idempotency
+    pointer is emitted in apis.yml because the provider genuinely has no
+    idempotency contract.
+pagination:
+  styles:
+    - surface: advertiser — campaigns
+      params: [limit, start]
+      default_limit: null
+      max_limit: 500
+      error_on_exceed: '[ERROR_MAX_LIMIT_PER_PAGE_500]'
+      error_on_unpaginated: '[ERROR_TOO_MANY_CAMPAIGNS_USE_PARAMS_LIMIT_AND_START]'
+      start_default: 0
+    - surface: advertiser — statistics-reports
+      params: [limit, offset]
+      default_limit: 20
+      max_limit: 1000
+    - surface: publisher v1 — widget-custom-report
+      params: [page, perPage]
+      max_limit: 100000
+    - surface: publisher v2 — website-custom-report
+      params: [limit, offset]
+      default_limit: 1000
+      max_limit: 100000
+  cursor_support: false
+  total_count_field: null
+  inconsistency_note: >-
+    Four different pagination vocabularies across one product — limit/start,
+    limit/offset, page/perPage, limit/offset — with page ceilings spanning 500 to
+    100,000. A generic client cannot page MGID uniformly.
+filtering_and_query:
+  style: bracketed nested query parameters
+  example: 'filters[dateRange][dateFrom]=YYYY-MM-DD&filters[dateRange][dateTo]=YYYY-MM-DD'
+  sorting:
+    params: [sortBy, sortMethod]
+    surface: publisher
+  time_zone:
+    param: timeZone
+    format: TZ database identifier
+    default: America/Los_Angeles
+    surface: publisher
+  date_format: YYYY-MM-DD
+  date_range_max_days: 90
+  date_range_max_days_surface: advertiser statistics-reports
+  named_intervals:
+    param: dateInterval
+    surface: publisher
+    values: [today, yesterday, thisWeek, lastWeek, thisMonth, lastMonth, lastSeven, last30Days, last90Days, custom]
+reporting_model:
+  style: dimensions + metrics
+  note: >-
+    Both the advertiser statistics-reports endpoint and the publisher
+    custom-report endpoints take comma-separated `dimensions` and `metrics`
+    lists, an analytics-cube shape rather than a resource shape.
+  advertiser:
+    max_dimensions: 3
+    dimensions: [month, week, day, hour, campaignId, campaignName, campaignType, teaserId, country, region, os, browser, deviceType, widgetId, source]
+    metrics: [adRequests, clicks, impressions, viewability, spent, cpc, cpcWithoutDataFee, ctr, epc, vCtr, vCpm, revenue, profit, roas, conversionsInterest, conversionsDecision, conversionsBuy, conversionsRateInterest, conversionsRateDecision, conversionsRateBuy, conversionsCostInterest, conversionsCostDecision, conversionsCostBuy]
+  publisher:
+    dimensions: [date, website, countryIso, deviceType, OS, trafficType, trafficSource, widgetId, widgetName, domain, subId]
+    metrics: [adRequests, impressions, clicks, revenue, cpm, eCpm, cpc, ctr, pageViews, adCTR, visibilityRate]
+field_expansion:
+  supported: false
+sparse_fieldsets:
+  supported: false
+  note: The dimensions/metrics selectors on reporting endpoints are the nearest equivalent.
+metadata:
+  custom_metadata_support: false
+  note: >-
+    UTM tagging fields (utm_source, utm_medium, utm_campaign, utm_custom) on a
+    campaign are the only caller-controlled free-form fields, and they are
+    length-validated. mgclid / mgclida are reserved system parameters and are
+    rejected — [ERROR_MGCLID_MGCLIDA_SYSTEM_PARAMETERS_CANNOT_USE_THEM].
+request_tracing:
+  request_id_header: null
+  correlation_id: null
+  note: No request-id or correlation header is documented on request or response.
+versioning:
+  scheme: uri-path
+  current:
+    - v1
+    - v2
+  note: >-
+    v1 carries the advertiser, agency and publisher widget-custom-report
+    surfaces; v2 exists only for the publisher website-custom-report endpoint
+    (/v2/pub/account/{clientId}/website-custom-report). The two publisher
+    versions differ in pagination vocabulary and required headers, and both are
+    presented as current — there is no migration or deprecation note.
+  deprecation_policy: false
+  sunset_header: false
+error_envelope:
+  shape: '{"errors": ["[CODE]"]}'
+  format: proprietary
+  problem_json: false
+  detail: errors/mgid-error-codes.yml
+rate_limit_signaling:
+  headers_documented: false
+  retry_after: false
+  status_on_exhaustion: null
+  detail: rate-limits/mgid-rate-limits.yml
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header is documented, and no
+    exhaustion status code is published. The only published throughput controls
+    are the page-size ceilings and the 90-day reporting window above.
+inbound_events:
+  postback:
+    direction: third-party tracker -> MGID (inbound server-to-server)
+    endpoint: 'https://a.mgid.com/postback/{client_ID}'
+    params:
+      - name: c
+        required: true
+        meaning: click id from the third-party tool
+      - name: e
+        required: true
+        meaning: event name
+      - name: r
+        required: false
+        meaning: revenue, in the account currency
+    source: https://help.mgid.com/postback-setup
+    note: >-
+      This is a conversion INGESTION endpoint, not a webhook. MGID does not call
+      the customer; the customer's tracker calls MGID. No outbound webhook,
+      subscription API or event catalog is published, so no Webhooks pointer is
+      emitted.
+cross_links:
+  authentication: authentication/mgid-authentication.yml
+  errors: errors/mgid-error-codes.yml
+  lifecycle: lifecycle/mgid-lifecycle.yml
+  rate_limits: rate-limits/mgid-rate-limits.yml
+  data_model: data-model/mgid-data-model.yml

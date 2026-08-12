@@ -1,0 +1,138 @@
+generated: '2026-08-12'
+method: searched
+source: https://docs.prebid.org/dev-docs/bidders/mgid.html
+docs:
+  - https://docs.prebid.org/dev-docs/bidders/mgid.html
+  - https://help.mgid.com/api-advertisers/
+  - https://www.mgid.com/services/privacy-policy
+  - https://www.mgid.com/services/ccpa
+note: >-
+  MGID's standards posture is entirely on the ad-tech side of the house — IAB
+  frameworks and Prebid — and almost absent on the API side. The REST APIs
+  conform to no cross-cutting API standard beyond plain HTTP. No SOC 2, ISO
+  27001, PCI DSS, HIPAA or FedRAMP certification is published anywhere on
+  mgid.com; there is no trust centre (trust.mgid.com does not resolve) and
+  www.mgid.com/security is a soft 404 that returns the SPA shell with 404 body
+  content. No `Compliance` pointer is emitted, because no compliance program is
+  published.
+standards:
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      No oauth2 surface. Authentication is a static 32-character bearer token
+      issued from the dashboard — see authentication/mgid-authentication.yml.
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration returns 520 on api.mgid.com and 403/404 on the other hosts.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors use a proprietary {"errors":["[CODE]"]} envelope, not
+      application/problem+json — errors/mgid-error-codes.yml.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt missing on all four hosts — well-known/mgid-well-known.yml.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No deprecation policy or Sunset/Deprecation header support published.
+  - id: rfc8615-well-known
+    conforms: false
+    evidence: No /.well-known/ document served on any host.
+  - id: json-api
+    conforms: false
+    evidence: Responses are plain JSON with no JSON:API document structure.
+  - id: openapi
+    conforms: false
+    evidence: >-
+      No OpenAPI or Swagger document published. Probed /openapi.json,
+      /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /docs and /redoc
+      against api.mgid.com and help.mgid.com on 2026-08-12 — all missed.
+  - id: asyncapi
+    conforms: false
+    evidence: No event or streaming surface. Conversion postback is inbound-only.
+  - id: mcp
+    conforms: false
+    evidence: No MCP server published or listed in any registry.
+  - id: a2a
+    conforms: false
+    evidence: No agent card at /.well-known/agent-card.json or /.well-known/agent.json on any host.
+  - id: llms-txt
+    conforms: true
+    evidence: >-
+      https://www.mgid.com/llms.txt returns HTTP 200 with a real llms.txt
+      document — H1, About blockquote and grouped link sections. Saved verbatim
+      to llms/mgid-llms.txt. It is a marketing-site map, not an API map; it names
+      no API surface.
+  - id: https-only
+    conforms: true
+    evidence: '"all API requests must be performed via HTTPS" — help.mgid.com/api-advertisers/'
+  - id: hsts
+    conforms: partial
+    evidence: >-
+      www.mgid.com (max-age 15552000) and help.mgid.com (max-age 31536000) send
+      HSTS; api.mgid.com does not — security/mgid-domain-security.yml.
+  - id: dnssec
+    conforms: false
+    evidence: mgid.com is not DNSSEC-signed — security/mgid-domain-security.yml.
+  - id: caa
+    conforms: false
+    evidence: No CAA records on mgid.com.
+  - id: spf
+    conforms: true
+    evidence: SPF present on mgid.com.
+  - id: dmarc
+    conforms: true
+    evidence: DMARC present on mgid.com with policy p=reject.
+  - id: iab-tcf-v2
+    conforms: true
+    evidence: >-
+      Prebid's bidder registry records TCF support for the "mgid" adapter with
+      IAB Global Vendor List ID 358.
+    gvl_id: 358
+  - id: iab-ccpa-us-privacy
+    conforms: true
+    evidence: >-
+      Prebid bidder registry records US Privacy / CCPA support for the "mgid"
+      adapter; MGID also publishes a CCPA notice at
+      https://www.mgid.com/services/ccpa.
+  - id: iab-openrtb
+    conforms: true
+    evidence: >-
+      MGID ships both a Prebid.js client-side bid adapter and a Prebid Server
+      adapter (bidder code "mgid"), which are OpenRTB-based demand integrations.
+      MGID maintains forks of ampproject/amphtml, prebid/Prebid.js and
+      prebid/prebid-server in its GitHub org.
+  - id: iab-schain
+    conforms: unknown
+    evidence: Prebid bidder registry lists supply-chain support as "check with bidder".
+  - id: coppa
+    conforms: unknown
+    evidence: Prebid bidder registry lists COPPA support as "check with bidder".
+  - id: amp
+    conforms: true
+    evidence: 'MGID inventory is servable via the AMP <amp-embed type="mgid"> element.'
+  - id: gdpr
+    conforms: claimed
+    evidence: >-
+      Privacy Notice at https://www.mgid.com/services/privacy-policy plus IAB TCF
+      vendor registration (GVL 358). Self-asserted; no third-party audit
+      published.
+  - id: soc2
+    conforms: false
+    evidence: No SOC 2 report or attestation published.
+  - id: iso27001
+    conforms: false
+    evidence: No ISO 27001 certificate published.
+  - id: pci-dss
+    conforms: false
+    evidence: No PCI DSS attestation published.
+certifications_published: []
+compliance_program_published: false
+trust_center: false
+trust_center_evidence:
+  - url: https://trust.mgid.com
+    status: 000
+    note: does not resolve
+  - url: https://www.mgid.com/security
+    status: 200
+    note: soft 404 — returns the Angular SPA shell rendering a "page not found" body

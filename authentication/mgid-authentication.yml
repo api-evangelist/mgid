@@ -1,0 +1,94 @@
+generated: '2026-08-12'
+method: searched
+source: https://help.mgid.com/api-advertisers/
+docs:
+  - https://help.mgid.com/api-advertisers/
+  - https://help.mgid.com/api-publishers
+  - https://help.mgid.com/api-ra
+note: >-
+  MGID publishes no OpenAPI, so this profile could not be derived mechanically
+  from securitySchemes. It is transcribed from the three published REST API
+  reference pages on help.mgid.com, which all document the same single auth
+  model. Probing https://api.mgid.com/v1/ anonymously returns HTTP 401 with the
+  body {"errors":"Authentication token is missing"}, which confirms the scheme is
+  enforced at the live API host.
+summary:
+  types:
+    - apiKey
+  api_key_in:
+    - header
+  oauth2_flows: []
+  openid_connect: false
+  mutual_tls: false
+  scopes_supported: false
+schemes:
+  - name: BearerToken
+    type: apiKey
+    in: header
+    parameter_name: Authorization
+    format: 'Bearer {token}'
+    token_length: 32
+    description: >-
+      A single opaque 32-character token identifies the account. The docs state
+      "the Mgid REST API uses a unique token consisting of 32 characters which is
+      passed in client's request Authorization header" and "You should get a
+      valid token from the dashboard."
+    issuance: manual
+    issuance_channel: MGID dashboard (self-serve UI)
+    token_endpoint: null
+    token_endpoint_note: >-
+      No machine-readable token/credential-exchange endpoint is documented on any
+      of the three reference pages. Tokens are copied out of the dashboard by a
+      human; there is no documented programmatic rotation, refresh or revocation
+      call.
+    rotation_documented: false
+    expiry_documented: false
+    scopes: []
+    applies_to:
+      - mgid:mgid-advertiser-api
+      - mgid:mgid-publisher-api
+      - mgid:mgid-agency-api
+    sources:
+      - https://help.mgid.com/api-advertisers/
+      - https://help.mgid.com/api-publishers
+      - https://help.mgid.com/api-ra
+transport:
+  https_required: true
+  https_required_evidence: >-
+    "all API requests must be performed via HTTPS" — stated on the advertiser and
+    agency reference pages.
+identity_model:
+  note: >-
+    Authorization is bound to path identifiers rather than to token scopes. Every
+    resource path carries the account identity — {client_id} (advertiser),
+    {authId}/{clientId} (publisher) and {accountId} (agency) — and the token is
+    expected to be entitled to that account. There is no scope, permission or
+    role vocabulary published.
+  path_identifiers:
+    - name: client_id
+      surface: advertiser
+      example_path: /v1/goodhits/clients/{client_id}/campaigns
+    - name: authId
+      surface: publisher
+      example_path: /v1/publishers/{authId}/widget-custom-report
+    - name: clientId
+      surface: publisher
+      example_path: /v2/pub/account/{clientId}/website-custom-report
+    - name: accountId
+      surface: agency
+      example_path: /v1/agencies/{accountId}/clients
+failure_modes:
+  - status: 401
+    body: '{"errors":"Authentication token is missing"}'
+    observed: true
+    observed_url: https://api.mgid.com/v1/
+    observed_date: '2026-08-12'
+  - status: 401
+    message: invalid token
+    surface: agency
+    source: https://help.mgid.com/api-ra
+gaps:
+  - No OAuth 2.0, OpenID Connect or mTLS surface is published.
+  - No scope or permission model is published, so least-privilege delegation is not expressible.
+  - No documented token lifetime, rotation or revocation endpoint.
+  - Token issuance is UI-only; an agent cannot provision credentials programmatically.
