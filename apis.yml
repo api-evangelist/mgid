@@ -5,6 +5,17 @@ description: MGID is a native advertising platform providing a REST API for mana
   ad teasers, widgets, conversion tracking, geo and device targeting, and access to
   detailed traffic and revenue analytics for content monetization across native, display,
   and video ad formats.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: unknown
