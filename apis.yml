@@ -64,6 +64,12 @@ apis:
       - Teasers
       - Targeting
       - Statistics
+      - Conversion
+    tags_raw:
+      - Campaigns
+      - Teasers
+      - Targeting
+      - Statistics
       - Conversions
     properties:
       - type: Documentation
