@@ -106,6 +106,12 @@ apis:
     tags:
       - Agencies
       - Clients
+      - Finance
+      - Billing
+      - Reporting
+    tags_raw:
+      - Agencies
+      - Clients
       - Financial
       - Billing
       - Reporting
