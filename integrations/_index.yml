@@ -71,3 +71,43 @@
     detected: '2026-10-18'
   status: not-a-workflow
   arazzo: null
+- slug: mgid-packagist
+  label: Packagist
+  partner: packagist
+  partner_name: Packagist
+  category: official SDK (PHP)
+  type: register
+  channel: package-registry
+  evidence: https://packagist.org/packages/mgid/kafka-bundle
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: Packagist (public registry JSON)
+    spec_file: null
+    language: PHP
+    packages:
+    - name: mgid/kafka-bundle
+      version: 1.0.0
+      released: '2020-12-24'
+      released_field: time
+      lapsed: true
+      page: https://packagist.org/packages/mgid/kafka-bundle
+      repo_leg: github-org:mgid
+      publisher_leg: email:mgid.com
+      matched_by: domain
+    - name: mgid/pagination-bundle
+      version: 1.0.0
+      released: '2020-12-24'
+      released_field: time
+      lapsed: true
+      page: https://packagist.org/packages/mgid/pagination-bundle
+      repo_leg: github-org:mgid
+      publisher_leg: email:mgid.com
+      matched_by: domain
+    current: false
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-php-dart-elixir-package-registries.py
+    detected: '2026-10-22'
+  status: not-a-workflow
+  arazzo: null
