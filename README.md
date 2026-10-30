@@ -64,32 +64,121 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-MGID is a native advertising platform providing REST APIs for managing publishers,
-advertisers, and agencies. The API enables management of campaigns, ad teasers,
-widgets, conversion tracking, geo and device targeting, and access to detailed
-traffic and revenue analytics for content monetization across native, display,
-and video ad formats.
+MGID is a native advertising platform providing a REST API for managing publishers, advertisers, and agencies. The API enables management of campaigns, ad teasers, widgets, conversion tracking, geo and device targeting, and access to detailed traffic and revenue analytics for content monetization across native, display, and video ad formats.
 
-## APIs
+**Areas:** Native Advertising · AdTech · Publishers · Advertisers · Campaigns · Content Monetization · Programmatic
 
-- **Advertiser API** - Campaign management, teasers, targeting, conversions, reporting
-- **Publisher API** - Widget and website performance metrics, revenue analytics
-- **Agency API** - Multi-client management, financial stats, fund transfers
+## MGID on APIs.io
 
-## Links
+Everything profiled for MGID is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/mgid/](https://apis.io/providers/mgid/)** — or go straight to one of the APIs or properties below.
+
+### APIs (3)
+
+- [MGID Advertiser API](https://apis.io/apis/mgid/mgid-advertiser-api/) — REST API for advertisers and agencies to manage campaigns, teasers, targeting, conversion tracking, and access detailed statistics and reporting for native…
+- [MGID Publisher API](https://apis.io/apis/mgid/mgid-publisher-api/) — REST API for publishers to retrieve widget and website performance metrics including impressions, clicks, revenue, CPM, eCPM, visibility rates, and traffic…
+- [MGID Agency API](https://apis.io/apis/mgid/mgid-agency-api/) — REST API for advertising agencies to manage client accounts, retrieve financial statistics, view expense reports by service type, and transfer funds between…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Mgid Context](https://apis.io/jsonld/mgid/mgid-context/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Mgid Authentication](https://apis.io/security/mgid/mgid-authentication/)
+- [Mgid Domain Security](https://apis.io/security/mgid/mgid-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Mgid Plans Pricing](https://apis.io/plans/mgid/mgid-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Mgid Rate Limits](https://apis.io/rate-limits/mgid/mgid-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Mgid Finops](https://apis.io/finops/mgid/mgid-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.mgid.com)
-- [Documentation](https://help.mgid.com/api)
-- [Advertiser API Docs](https://help.mgid.com/api-advertisers/)
-- [Publisher API Docs](https://help.mgid.com/api-publishers)
-- [Agency API Docs](https://help.mgid.com/api-ra)
-- [Blog](https://www.mgid.com/blog)
+- [Documentation](https://help.mgid.com/)
+- [Getting started](https://help.mgid.com/advertisers/get-started-with-mgid-ads)
+- [API reference](https://help.mgid.com/api)
 - [Pricing](https://help.mgid.com/mgids-pricing-and-billing-model)
-- [Status](https://status.mgid.com)
+- [Sign up](https://dashboard.mgid.com/signup)
+- [Support](https://www.mgid.com/contacts)
+- [Blog](https://www.mgid.com/blog)
+- [Terms of service](https://www.mgid.com/services/advertisers-tos)
+- [Privacy policy](https://www.mgid.com/services/privacy-policy)
 - [GitHub](https://github.com/mgid)
-- [LinkedIn](https://www.linkedin.com/company/mgid-inc-)
-- [X](https://twitter.com/MGID)
+- [Status](https://status.mgid.com)
 
-## Maintainer
+## API Evangelist rating
 
-Kin Lane (kin@apievangelist.com)
+**Kin Score 37.3** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 10.7 |
+| Contract governance | 18.2 |
+| Operational transparency | 50.0 |
+| Developer ergonomics | 40.5 |
+| Access clarity | 48.7 |
+
+**Agent readiness 7.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/mgid/](https://apis.io/providers/mgid/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for MGID: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/mgid/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
